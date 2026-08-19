@@ -14,9 +14,10 @@ $fish -c 'name=(string repeat -n 300 A) ./$name; echo $status'
 #CHECKERR:                               ^~~~~~^
 #CHECK: 126
 
-# real ENOEXEC from exec -> status 126
-$fish -c 'head -c 1 /dev/zero >./file_8de9325e && chmod +x ./file_8de9325e && ./file_8de9325e; echo $status && rm ./file_8de9325e'
-#CHECKERR: exec: Failed to execute process: './file_8de9325e' the file could not be run by the operating system.
+# real ENOEXEC from exec -> status 126.
+# '.exe' extension is for cygwin_noacl sytems where `chmod +x` has no effect
+$fish -c 'head -c 1 /dev/zero >./file_8de9325e.exe && chmod +x ./file_8de9325e.exe && ./file_8de9325e.exe; echo $status && rm ./file_8de9325e.exe'
+#CHECKERR: exec: Failed to execute process: './file_8de9325e.exe' the file could not be run by the operating system.
 #CHECKERR: exec: Maybe the interpreter directive (#! line) is broken?
 #CHECK: 126
 
